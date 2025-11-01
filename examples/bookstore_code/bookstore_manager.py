@@ -1,4 +1,4 @@
-"""Library management system for testing Publisher."""
+"""BookStore management system demonstrating genro-db usage."""
 
 import csv
 import sqlite3
@@ -115,7 +115,7 @@ class BookTable(Table):
 
 @apiready(path="/book")
 class Book:
-    """Book in the library with API methods."""
+    """Book in the bookstore with API methods."""
 
     def __init__(
         self,
@@ -126,10 +126,10 @@ class Book:
         pages: int,
         genre: str,
         shelf_code: str,
-        library: "Library",
+        bookstore: "BookStore",
         content: dict[int, str] | None = None
     ):
-        """Initialize book with reference to library.
+        """Initialize book with reference to bookstore.
 
         Args:
             id: Book ID
@@ -139,7 +139,7 @@ class Book:
             pages: Number of pages
             genre: Book genre
             shelf_code: Shelf where book is located
-            library: Reference to Library instance
+            bookstore: Reference to BookStore instance
             content: Optional page content dictionary
         """
         self.id = id
@@ -149,7 +149,7 @@ class Book:
         self.pages = pages
         self.genre = genre
         self.shelf_code = shelf_code
-        self._library = library
+        self._bookstore = bookstore
         self.content = content or {}
 
     @apiready
@@ -157,7 +157,7 @@ class Book:
         self, page_number: Annotated[int, "Page number to read"]
     ) -> str:
         """Get content of a specific page."""
-        return self._library.get_page_content(self.id, page_number)
+        return self._bookstore.get_page_content(self.id, page_number)
 
     @apiready
     def read(
@@ -166,14 +166,14 @@ class Book:
         to_page: Annotated[int | None, "End page number (None = last page)"] = None
     ) -> dict[int, str]:
         """Read book content from page to page."""
-        return self._library.read_book(self.id, from_page, to_page)
+        return self._bookstore.read_book(self.id, from_page, to_page)
 
     @apiready
     def move_to(
         self, new_shelf_code: Annotated[str, "New shelf code"]
     ) -> dict:
         """Move book to a different shelf."""
-        return self._library.book.move(self.id, new_shelf_code)
+        return self._bookstore.book.move(self.id, new_shelf_code)
 
     @apiready
     def get_info(self) -> dict[str, Any]:
@@ -190,10 +190,10 @@ class Book:
         }
 
 
-@apiready(path="/library")
-class Library(GenroMicroApplication):
+@apiready(path="/bookstore")
+class BookStore(GenroMicroApplication):
     """
-    Library management system with SQLite persistence.
+    BookStore management system with SQLite persistence.
 
     Manages shelves and books with full CRUD operations
     and various query methods. All data is stored in SQLite database.
@@ -201,7 +201,7 @@ class Library(GenroMicroApplication):
 
     def __init__(self, db_path: str = ":memory:"):
         """
-        Initialize the library with SQLite database.
+        Initialize the bookstore with SQLite database.
 
         Args:
             db_path: Path to SQLite database file. Use ":memory:" for in-memory database.
@@ -243,7 +243,7 @@ class Library(GenroMicroApplication):
 
     def import_from_csv(self, data_dir: str | Path | None = None) -> None:
         """
-        Import library data from CSV files.
+        Import bookstore data from CSV files.
 
         Args:
             data_dir: Directory containing shelves.csv and books.csv files.
@@ -355,7 +355,7 @@ class Library(GenroMicroApplication):
 
     @apiready
     def get_stats(self) -> dict[str, int]:
-        """Get library statistics."""
+        """Get bookstore statistics."""
         maindb = self.db('maindb')
         with maindb.cursor() as cursor:
             # Count shelves
@@ -383,7 +383,7 @@ class Library(GenroMicroApplication):
 
     @apiready
     def get_genres(self) -> list[str]:
-        """Get list of all genres in the library."""
+        """Get list of all genres in the bookstore."""
         maindb = self.db('maindb')
         with maindb.cursor() as cursor:
             cursor.execute("SELECT genre FROM books GROUP BY genre ORDER BY genre")
