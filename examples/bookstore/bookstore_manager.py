@@ -247,11 +247,11 @@ class BookStore(GenroMicroApplication):
 
         Args:
             data_dir: Directory containing shelves.csv and books.csv files.
-                     If None, uses the example_data directory relative to this file.
+                     If None, uses the sample_data directory relative to this file.
         """
         if data_dir is None:
-            # Default to example_data directory relative to this file
-            data_dir = Path(__file__).parent.parent / "example_data"
+            # Default to sample_data directory relative to this file
+            data_dir = Path(__file__).parent / "sample_data"
         else:
             data_dir = Path(data_dir)
 
@@ -262,7 +262,7 @@ class BookStore(GenroMicroApplication):
                 reader = csv.DictReader(f)
                 for row in reader:
                     try:
-                        self.maindb.tables.shelf.insert(code=row["code"], name=row["name"])
+                        self.maindb.tables.shelf.insert(record={"code": row["code"], "name": row["name"]})
                     except ValueError:
                         # Shelf already exists, skip
                         pass
@@ -273,14 +273,14 @@ class BookStore(GenroMicroApplication):
             with open(books_file, "r", encoding="utf-8") as f:
                 reader = csv.DictReader(f)
                 for row in reader:
-                    self.maindb.tables.book.insert(
-                        title=row["title"],
-                        author=row["author"],
-                        publisher=row["publisher"],
-                        pages=int(row["pages"]),
-                        genre=row["genre"],
-                        shelf_code=row["shelf_code"],
-                    )
+                    self.maindb.tables.book.insert(record={
+                        "title": row["title"],
+                        "author": row["author"],
+                        "publisher": row["publisher"],
+                        "pages": int(row["pages"]),
+                        "genre": row["genre"],
+                        "shelf_code": row["shelf_code"],
+                    })
 
     # ========== BOOK CONTENT (for Book class usage) ==========
 
