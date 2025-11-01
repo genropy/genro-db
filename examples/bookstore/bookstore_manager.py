@@ -15,7 +15,7 @@ class ShelfTable(Table):
     """Table for shelf operations with automatic CRUD."""
 
     sql_name = "shelves"
-    pk_field = "code"  # Shelves use 'code' as primary key instead of 'id'
+    pkey = "code"  # Shelves use 'code' as primary key instead of 'id'
     name_plural = "shelves"
     name = "shelf"
     _icon = "📚"
@@ -109,8 +109,10 @@ class BookTable(Table):
         new_shelf_code: Annotated[str, "New shelf code"],
     ) -> dict:
         """Move a book to a different shelf."""
-        # Use the base update() method
-        return self.update(book_id, shelf_code=new_shelf_code)
+        # Get the book and update its shelf_code
+        book = self.get(book_id)
+        book['shelf_code'] = new_shelf_code
+        return self.update(record=book)
 
 
 @apiready(path="/book")
