@@ -13,10 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Database adapters for different SQL engines."""
+"""CLI commands for genro-db."""
 
-from .base import DatabaseAdapter
-from .sqlite import SQLiteAdapter
-from .postgres import PostgreSQLAdapter
+from genro_db.cli.db_commands import DbCommands
 
-__all__ = ["DatabaseAdapter", "SQLiteAdapter", "PostgreSQLAdapter"]
+__all__ = ["DbCommands"]
