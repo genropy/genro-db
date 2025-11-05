@@ -1,6 +1,6 @@
-# Genro DB
+# Genro SQL
 
-Database abstraction layer for the Genro framework.
+SQL database abstraction layer for the Genro framework.
 
 ## Features
 
@@ -15,14 +15,14 @@ Database abstraction layer for the Genro framework.
 ## Installation
 
 ```bash
-pip install genro-db
+pip install genro-sql
 ```
 
 ## Quick Start
 
 ```python
 from dataclasses import dataclass
-from genro_db import GenroMicroDb, Table
+from genro_sql import GenroMicroDb, Table
 
 # Define a table
 class BookTable(Table):

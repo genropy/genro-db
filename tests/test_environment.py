@@ -1,7 +1,7 @@
 """Test environment system (currentEnv, TempEnv, TriggerStack)."""
 
 from dataclasses import dataclass
-from genro_db import GenroMicroDb, Table
+from genro_sql import GenroMicroDb, Table
 
 
 # Define test tables

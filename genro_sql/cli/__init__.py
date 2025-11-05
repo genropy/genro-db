@@ -15,6 +15,6 @@
 
 """CLI commands for genro-db."""
 
-from genro_db.cli.db_commands import DbCommands
+from genro_sql.cli.db_commands import DbCommands
 
 __all__ = ["DbCommands"]

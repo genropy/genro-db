@@ -18,7 +18,7 @@
 import sys
 from argparse import ArgumentParser, _SubParsersAction
 
-from genro_db.cli.config import DbConfig
+from genro_sql.cli.config import DbConfig
 
 
 class DbCommands:

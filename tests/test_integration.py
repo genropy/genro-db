@@ -1,7 +1,7 @@
 """Test integration of GenroMicroDb, adapters, and Table."""
 
 from dataclasses import dataclass
-from genro_db import GenroMicroDb, Table
+from genro_sql import GenroMicroDb, Table
 
 
 # Define a test table

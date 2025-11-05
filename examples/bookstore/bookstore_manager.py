@@ -7,7 +7,7 @@ from pathlib import Path
 from typing import Annotated, Any
 
 from genro_core.enablers import apiready
-from genro_db import Table
+from genro_sql import Table
 from genro_core import GenroMicroApplication
 
 
